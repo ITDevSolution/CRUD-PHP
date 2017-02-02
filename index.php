@@ -7,23 +7,50 @@
 
 		$valor = $_POST['campo'];
 		if (!empty($valor)){
-			$where =  "WHERE nombre LIKE '%$valor%'";
+			$where =  "WHERE Nombre LIKE '%$valor%'";
 		}
 	}
 
-	$sql = "SELECT * FROM personas $where";
+	$sql = "SELECT * FROM personas $where LIMIT 100";
 	$resul = $conexion->query($sql);
 
 ?>
 <!DOCTYPE html>
 <html lang="es">
 <head>
+	<title>CRUD PHP</title>
 	<meta name="viewport" content="width=divice-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<link rel="stylesheet" href="css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/jquery.dataTables.min.css">
 	<script src="js/jquery-3.1.1.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-	<title></title>
+	<script src="js/jquery.dataTables.min.js"></script>
+	<script>
+		$(document).ready(function(){
+			$('#mitabla').DataTable({
+				"order": [[1, "asc"]],
+				"language":{
+				"lengthMenu": "Mostrar _MENU_ registro por pagina",
+				"info": "Mostrando pagina _PAGE_ de _PAGES_",
+				"infoEmpty": "No hay registros disponibles",
+				"infoFiltered": "(filtrada de _MAX_ registros)",
+				"loadingRecords": "Cargando...",
+				"processing":     "Procesando...",
+				"search": "Buscar:",
+				"zeroRecords":    "No se encontraron registros coincidentes",
+				"paginate": {
+					"next":       "Siguiente",
+					"previous":   "Anterior"
+					},					
+
+				}	
+
+			});
+		});
+
+	</script>
+
 </head>
 <body>
 	<header>
@@ -52,7 +79,7 @@
 			<br>
 
 			<div class="row table-responsive">
-				<table class="table table-striped">
+				<table class="display" id="mitabla">
 					<thead>
 						<tr>
 							<th>ID</th>
