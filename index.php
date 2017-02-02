@@ -3,7 +3,15 @@
 
 	$where = "";
 
-	$sql = "SELECT * FROM personas";
+	if (!empty($_POST)) {
+
+		$valor = $_POST['campo'];
+		if (!empty($valor)){
+			$where =  "WHERE nombre LIKE '%$valor%'";
+		}
+	}
+
+	$sql = "SELECT * FROM personas $where";
 	$resul = $conexion->query($sql);
 
 ?>
@@ -33,6 +41,12 @@
 
 			<div class="row">
 				<a href="nuevo.php" class="btn btn-primary">Nuevo Registro</a>
+
+				<form action="<?php $_SERVER['PHP_SELF']; ?>" method="POST">
+					<b>Nombre: </b><input type="text" id="campo" name="campo">
+					<input type="submit" id="enviar" name="enviar" value="Buscar" class="btn btn-info">
+
+				</form>
 			</div>
 
 			<br>
@@ -51,14 +65,16 @@
 					</thead>
 
 					<tbody>
-						<?php while ($row = $resul->fetch_array(MYSQL_ASSOC)) { ?>
+						<?php while ($row = $resul->fetch_array(MYSQLI_ASSOC)) { ?>
 							<tr>
 								<td><?php echo $row['id']; ?></td>
 								<td><?php echo $row['nombre']; ?></td>
 								<td><?php echo $row['correo']; ?></td>
 								<td><?php echo $row['telefono']; ?></td>
+
 								<td><a href="modificar.php?id=<?php echo $row['id']; ?>"><span class="glyphicon glyphicon-pencil"></span></a></td>
-								<td><a href="#" data-href="eliminar.php?id=<?php echo $row['id']; ?>" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-trash"></span></a></td>
+								<td><a href="#" data-href="eliminar.php?id=<?php echo $row['id']; ?>" data-toggle="modal" data-target="#confirm-delete"><span class="glyphicon glyphicon-trash"></span></a>
+								</td>
 							</tr>
 						<?php } ?>
 					</tbody>
@@ -109,4 +125,3 @@
 	</footer>
 </body>
 </html>	
-

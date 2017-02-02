@@ -1,11 +1,13 @@
 <?php 
-require 'conexion.php';
+	require 'conexion.php';
 
-$id = $_GET['id'];
-$sql = "SELECT * FROM persona where id = '$id'";
-$resultado = $conexion->query($sql);
+	$id = $_GET['id'];
 
-$row = $resultado->fetch_array(MYSQL_ASSOC);
+	$sql = "SELECT * FROM personas WHERE id = '$id'";
+
+	$resultado = $conexion->query($sql);
+
+	$row = $resultado->fetch_array(MYSQLI_ASSOC);
 
 ?>
 
@@ -24,7 +26,7 @@ $row = $resultado->fetch_array(MYSQL_ASSOC);
 		<div class="row">
 			<h3 style="text-align: center;">MODIFICAR REGISTRO</h3>
 		</div>
-		<form class="form-horizontal" method="post" action="guardar.php" autocomplete="off">
+		<form class="form-horizontal" method="post" action="update.php" autocomplete="off">
 		<div class="form-group">
 			<label for="nombre" class="col-sm-2 control-label">Nombre</label>
 			<div class="col-sm-10">
@@ -32,10 +34,12 @@ $row = $resultado->fetch_array(MYSQL_ASSOC);
 			</div>
 		</div>
 
+		<input type="hidden" id="id" name="id" value="<?php echo $row['id']; ?>">
+
 		<div class="form-group">
 			<label for="email" class="col-sm-2 control-label">Email</label>
 			<div class="col-sm-10">
-				<input type="text" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $row['email']; ?>" required>
+				<input type="email" class="form-control" id="email" name="email" placeholder="Email" value="<?php echo $row['correo']; ?>" required>
 			</div>
 		</div>
 
@@ -70,23 +74,24 @@ $row = $resultado->fetch_array(MYSQL_ASSOC);
 			</div>
 		</div>
 
+		<!--CHECKBOX-->
 		<div class="form-group">
-			<label for="intereses" class="col-sm-2 control-label">INTERESES</label>
+				<label for="intereses" class="col-sm-2 control-label">INTERESES</label>
 			<div class="col-sm-10">
 				<label class="checkbox-inline">
-					<input type="checkbox" id="intereses[]" name="intereses[]" value="Libros">Libros
+					<input type="checkbox" id="intereses[]" name="intereses[]" value="Libros" <?php if(strpos($row['intereses'], "Libros") !== false) echo 'cheked'; ?>>Libros
 				</label>
 
 				<label class="checkbox-inline">
-					<input type="checkbox" id="intereses[]" name="intereses[]" value="Musica">Musica
+					<input type="checkbox" id="intereses[]" name="intereses[]" value="Musica" <?php if(strpos($row['intereses'], "Musica") !== false) echo 'cheked'; ?>>Musica
 				</label>
 
 				<label class="checkbox-inline">
-					<input type="checkbox" id="intereses[]" name="intereses[]" value="Deportes">Deportes
+					<input type="checkbox" id="intereses[]" name="intereses[]" value="Deportes" <?php if(strpos($row['intereses'], "Deportes") !== false) echo 'cheked'; ?>>Deportes
 				</label>
 
 				<label class="checkbox-inline">
-					<input type="checkbox" id="intereses[]" name="intereses[]" value="Otros">Otros
+					<input type="checkbox" id="intereses[]" name="intereses[]" value="Otros" <?php if(strpos($row['intereses'], "Otros") !== false) echo 'cheked'; ?>>Otros
 				</label>
 			</div>
 		</div>
